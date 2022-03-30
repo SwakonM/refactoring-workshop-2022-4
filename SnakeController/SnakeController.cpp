@@ -5,6 +5,7 @@
 
 #include "EventT.hpp"
 #include "IPort.hpp"
+#include "Dimension.hpp"
 
 namespace Snake
 {
@@ -23,11 +24,13 @@ Controller::Controller(IPort& p_displayPort, IPort& p_foodPort, IPort& p_scorePo
       m_paused(false)
 {
     std::istringstream istr(p_config);
+
     char w, f, s, d;
 
     int width, height, length;
     int foodX, foodY;
     istr >> w >> width >> height >> f >> foodX >> foodY >> s;
+
 
     if (w == 'W' and f == 'F' and s == 'S') {
         m_mapDimension = std::make_pair(width, height);
@@ -51,6 +54,8 @@ Controller::Controller(IPort& p_displayPort, IPort& p_foodPort, IPort& p_scorePo
                 throw ConfigurationError();
         }
         istr >> length;
+
+        m_snakeWord = std::make_unique<SnakeWorld>(m_displayPort,m_foodPort,m_mapDimension,m_foodPosition);
 
         while (length--) {
             Segment seg;

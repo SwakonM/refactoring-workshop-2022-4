@@ -13,6 +13,9 @@ class IPort;
 
 namespace Snake
 {
+
+class SnakeWorld;
+
 struct ConfigurationError : std::logic_error
 {
     ConfigurationError();
@@ -68,7 +71,8 @@ private:
     void updateFoodPosition(int x, int y, std::function<void()> clearPolicy);
     void sendClearOldFood();
     void sendPlaceNewFood(int x, int y);
-
+private:
+std::unique_ptr<SnakeWorld> m_snakeWord;
     bool m_paused;
 };
 
